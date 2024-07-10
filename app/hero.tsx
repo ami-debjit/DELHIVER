@@ -62,7 +62,7 @@ const Hero: React.FC = () => {
           <img src="/placeholder.svg" alt="Logo" className="h-6" />
           <nav className="flex space-x-4">
             <a href="#" className="text-white">
-              Ride
+              Ridee
             </a>
             <a href="#" className="text-white">
               Drive
