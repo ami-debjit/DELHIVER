@@ -1,8 +1,8 @@
+// pages/index.tsx
 "use client"
-
-
-
-import React from 'react';
+import React, { useState } from 'react';
+import Map from '@/components/Map';
+import LocationInput from '@/components/LocationInput';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {}
 
@@ -26,7 +26,7 @@ function LocateIcon(props: IconProps) {
       <line x1="12" x2="12" y1="19" y2="22" />
       <circle cx="12" cy="12" r="7" />
     </svg>
-  )
+  );
 }
 
 function WaypointsIcon(props: IconProps) {
@@ -51,10 +51,21 @@ function WaypointsIcon(props: IconProps) {
       <path d="m13.8 17.7 3.9-3.9" />
       <circle cx="12" cy="19.5" r="2.5" />
     </svg>
-  )
+  );
 }
 
 const Hero: React.FC = () => {
+  const [location, setLocation] = useState<google.maps.places.PlaceResult | null>(null);
+  const [destination, setDestination] = useState<google.maps.places.PlaceResult | null>(null);
+
+  const handleLocationSelected = (place: google.maps.places.PlaceResult) => {
+    setLocation(place);
+  };
+
+  const handleDestinationSelected = (place: google.maps.places.PlaceResult) => {
+    setDestination(place);
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
       <header className="flex items-center justify-between p-4">
@@ -84,17 +95,17 @@ const Hero: React.FC = () => {
       </header>
       <main className="flex flex-col items-center justify-center min-h-screen p-4 md:flex-row">
         <div className="flex flex-col items-start justify-center space-y-4 md:w-1/2">
-          <h1 className="text-4xl font-bold">Delhiver your package</h1>
-          <p className="text-lg">Place a request and find our partenrs.</p>
+          <h1 className="text-4xl font-bold">Deliver your package</h1>
+          <p className="text-lg">Place a request and find our partners.</p>
           <div className="space-y-2">
             <div className="flex items-center space-x-2">
-              <input type="text" placeholder="Enter location" className="w-full px-4 py-2 text-black rounded-md" />
+              <LocationInput onPlaceSelected={handleLocationSelected} placeholder="Enter location" />
               <button className="p-2 text-black bg-white rounded-md">
                 <LocateIcon className="w-4 h-4" />
               </button>
             </div>
             <div className="flex items-center space-x-2">
-              <input type="text" placeholder="Enter destination" className="w-full px-4 py-2 text-black rounded-md" />
+              <LocationInput onPlaceSelected={handleDestinationSelected} placeholder="Enter destination" />
               <button className="p-2 text-black bg-white rounded-md">
                 <WaypointsIcon className="w-4 h-4" />
               </button>
@@ -103,11 +114,11 @@ const Hero: React.FC = () => {
           <button className="px-4 py-2 mt-4 text-black bg-white rounded-md">See prices</button>
         </div>
         <div className="mt-8 md:mt-0 md:w-1/3">
-          <img src="/hero.png" alt="Show map" className="w-full h-auto rounded-md" />
+          {location && destination && <Map />}
         </div>
       </main>
     </div>
   );
-}
+};
 
 export default Hero;
