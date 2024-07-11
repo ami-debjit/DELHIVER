@@ -1,4 +1,3 @@
-// components/LocationInput.tsx
 import React, { useEffect, useRef, useState } from 'react';
 
 interface LocationInputProps {
@@ -12,7 +11,7 @@ const LocationInput: React.FC<LocationInputProps> = ({ onPlaceSelected, placehol
 
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyC23Auc2zbrnX3vSoKu95GgauiZKzEFEMw&libraries=places`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
     script.async = true;
     script.defer = true;
     script.onload = () => setScriptLoaded(true);

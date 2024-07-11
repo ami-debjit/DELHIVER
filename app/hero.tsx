@@ -1,4 +1,4 @@
-// pages/index.tsx
+// Hero.tsx
 "use client"
 import React, { useState } from 'react';
 import Map from '@/components/Map';
@@ -114,7 +114,9 @@ const Hero: React.FC = () => {
           <button className="px-4 py-2 mt-4 text-black bg-white rounded-md">See prices</button>
         </div>
         <div className="mt-8 md:mt-0 md:w-1/3">
-          {location && destination && <Map />}
+          {location && destination && (
+            <Map location={location} destination={destination} />
+          )}
         </div>
       </main>
     </div>
