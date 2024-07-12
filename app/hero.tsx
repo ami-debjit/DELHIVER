@@ -1,9 +1,9 @@
 // Hero.tsx
-"use client"
+"use client";
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import Map from '@/components/Map';
 import LocationInput from '@/components/LocationInput';
-
 interface IconProps extends React.SVGProps<SVGSVGElement> {}
 
 function LocateIcon(props: IconProps) {
@@ -57,6 +57,7 @@ function WaypointsIcon(props: IconProps) {
 const Hero: React.FC = () => {
   const [location, setLocation] = useState<google.maps.places.PlaceResult | null>(null);
   const [destination, setDestination] = useState<google.maps.places.PlaceResult | null>(null);
+  const router = useRouter();
 
   const handleLocationSelected = (place: google.maps.places.PlaceResult) => {
     setLocation(place);
@@ -66,24 +67,32 @@ const Hero: React.FC = () => {
     setDestination(place);
   };
 
+  const handleSeePrices = () => {
+    if (location && destination) {
+      // const locationData = {
+      //   locationLat: location.geometry?.location?.lat(),
+      //   locationLng: location.geometry?.location?.lng(),
+      //   destinationLat: destination.geometry?.location?.lat(),
+      //   destinationLng: destination.geometry?.location?.lng(),
+      // };
+      // const searchParams = new URLSearchParams(locationData as any).toString();
+      router.push('/prices');
+      // router.push(`/prices?${searchParams}`);
+    } else {
+      alert('Please fill in both location and destination.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
       <header className="flex items-center justify-between p-4">
         <div className="flex items-center space-x-4">
           <img src="/placeholder.svg" alt="Logo" className="h-6" />
           <nav className="flex space-x-4">
-            <a href="#" className="text-white">
-              Ridee
-            </a>
-            <a href="#" className="text-white">
-              Drive
-            </a>
-            <a href="#" className="text-white">
-              Business
-            </a>
-            <a href="#" className="text-white">
-              About
-            </a>
+            <a href="#" className="text-white">Ridee</a>
+            <a href="#" className="text-white">Drive</a>
+            <a href="#" className="text-white">Business</a>
+            <a href="#" className="text-white">About</a>
           </nav>
         </div>
         <div className="flex items-center space-x-4">
@@ -111,12 +120,10 @@ const Hero: React.FC = () => {
               </button>
             </div>
           </div>
-          <button className="px-4 py-2 mt-4 text-black bg-white rounded-md">See prices</button>
+          <button onClick={handleSeePrices} className="px-4 py-2 mt-4 text-black bg-white rounded-md">See prices</button>
         </div>
         <div className="mt-8 md:mt-0 md:w-1/3">
-          {location && destination && (
-            <Map location={location} destination={destination} />
-          )}
+          {location && destination && <Map location={location} destination={destination} />}
         </div>
       </main>
     </div>
